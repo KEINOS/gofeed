@@ -1,3 +1,5 @@
+[![](https://img.shields.io/docker/cloud/automated/keinos/gofeed-cli.svg)](https://hub.docker.com/r/keinos/gofeed-cli "View on Docker Hub") [![](https://img.shields.io/docker/cloud/build/keinos/gofeed-cli.svg)](https://hub.docker.com/r/keinos/gofeed-cli/builds "View builds on Docker Hub")
+
 # gofeed-cli
 
 A simple CLI of [gofeed](https://github.com/mmcdole/gofeed).
@@ -39,9 +41,9 @@ $
 
 ## Commands Available
 
--[x] `ParseURL [URL]`
--[x] `ParseString [String]`
--[] Comming soon ...
+- [x] `ParseURL [URL]`
+- [x] `ParseString [String]`
+- [ ] Comming soon ...
 
 ## Contribute/Collaborate
 
