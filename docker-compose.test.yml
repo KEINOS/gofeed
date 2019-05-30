@@ -1,5 +1,8 @@
-sut:
-  build: .
-  volumes:
-    - ./src/run-tests.sh:/run-tests.sh
-  entrypoint: /run-tests.sh
+version: "3"
+
+services:
+  sut:
+    build: .
+    volumes:
+      - ./tests/run-tests.sh:/run-tests.sh
+    entrypoint: /run-tests.sh
