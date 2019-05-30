@@ -1,4 +1,4 @@
-[![](https://img.shields.io/docker/cloud/automated/keinos/gofeed-cli.svg)](https://hub.docker.com/r/keinos/gofeed-cli "View on Docker Hub") [![](https://img.shields.io/docker/cloud/build/keinos/gofeed-cli.svg)](https://hub.docker.com/r/keinos/gofeed-cli/builds "View builds on Docker Hub")
+[![](https://images.microbadger.com/badges/image/keinos/gofeed-cli.svg)](https://microbadger.com/images/keinos/gofeed-cli "View image info on microbadger.com") [![](https://img.shields.io/docker/cloud/automated/keinos/gofeed-cli.svg)](https://hub.docker.com/r/keinos/gofeed-cli "View on Docker Hub") [![](https://img.shields.io/docker/cloud/build/keinos/gofeed-cli.svg)](https://hub.docker.com/r/keinos/gofeed-cli/builds "View builds on Docker Hub")
 
 # gofeed-cli
 
