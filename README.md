@@ -4,46 +4,117 @@
 
 A simple CLI of [gofeed](https://github.com/mmcdole/gofeed).
 
-This command parses the content of a given URL/string of XML/Atom feed into JSON.
+This command parses the content of a given URL/string of RSS/Atom feed (XML) into JSON.
+
+- Docker Image: `keinos/gofeed-cli:latest` [[See available versions](https://hub.docker.com/r/keinos/gofeed-cli/tags)]
+- Repositories:
+  - Source: https://github.com/KEINOS/gofeed-cli @ GitHub
+  - Image: https://hub.docker.com/r/keinos/gofeed-cli @ Docker Hub
+- Supported feed types: [See `gofeed` spec](https://github.com/mmcdole/gofeed#features).
+- Issues: https://github.com/KEINOS/gofeed-cli/issues @ GitHub
 
 ## Usage
 
+Use Docker or build the binary your own from the [source](https://github.com/KEINOS/gofeed-cli/tree/gofeed-cli/src).
+
+### Help
+
+```shellsession
+$ //gofeed-cli --help
+$ docker run --rm keinos/gofeed-cli --help
+NAME:
+   CLI for GoFeed - Parses Feeds such as XML and Atom to JSON.
+
+USAGE:
+   gofeed-cli [global options] command [command options] [arguments...]
+
+VERSION:
+   vX.X.X
+
+AUTHOR:
+   https://github.com/KEINOS/gofeed-cli/graphs/contributors
+
+COMMANDS:
+     ParseURL, url        Parse the contents of a given URL into JSON.
+     ParseString, string  Parse the contents of a given string into JSON.
+     help, h              Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --count value, -c value  Number of items to return. (WIP)
+   --json, -j               Returns output in JSON format. (Default)
+   --help, -h               show help
+   --version, -v            print the version
+```
+
+### Parse Feed From URL
+
+- Use `ParseURL` (alias `url`) command to parse feeds from URL.
+
+    ```bash
+    # Using the own built binary.
+    gofeed-cli ParseURL [URL]
+    gofeed-cli url [URL]
+    ```
+
+    ```bash
+    # Using Docker. No need to build but Docker.
+    docker run --rm keinos/gofeed-cli ParseURL [URL]
+    docker run --rm keinos/gofeed-cli string [URL]
+    ```
+
 ```shellsession
 $ gofeed-cli ParseURL https://sample.com/news.rss
-...
+...(parsed contents in JSON here)...
+
+$ gofeed-cli url https://sample.com/news.rss
+...(parsed contents in JSON here)...
 ```
 
 ```shellsession
-$ gofeed-cli ParseString [your feed string here]
-...
+$ docker run --rm keinos/gofeed-cli ParseURL https://sample.com/news.rss
+...(parsed contents in JSON here)...
+
+$ docker run --rm keinos/gofeed-cli url https://sample.com/news.rss
+...(parsed contents in JSON here)...
 ```
 
-### Via Docker
+### Parse Feed From A String
 
-```bash
-docker pull keinos/gofeed-cli
+- Use `ParseString` (alias `string`) command to parse feeds from URL.
+
+    ```bash
+    # Using the own built binary.
+    gofeed-cli ParseString [String]
+    gofeed-cli string [String]
+    ```
+
+    ```bash
+    # Using Docker. No need to build but Docker.
+    docker run --rm keinos/gofeed-cli ParseString [String]
+    docker run --rm keinos/gofeed-cli string [String]
+    ```
+
+```shellsession
+$ ls
+feed.xml
+
+$ gofeed-cli ParseString "$(cat feed.xml)"
+...(parsed contents in JSON here)...
+
+$ gofeed-cli string "$(cat feed.xml)"
+...(parsed contents in JSON here)...
 ```
 
 ```shellsession
-$ # Run gofeed-cli from the Host OS
-$ docker run --rm keinos/gofeed-cli ParseURL https://sample.com/news.atom
-...
+$ ls
+feed.xml
+
+$ docker run --rm keinos/gofeed-cli ParseString "$(cat feed.xml)"
+...(parsed contents in JSON here)...
+
+$ docker run --rm keinos/gofeed-cli string "$(cat feed.xml)"
+...(parsed contents in JSON here)...
 ```
-
-```shellsession
-$ # Run gofeed-cli inside the Docker container(GuesOS)
-$ docker run --rm -it --entrypoint /bin/sh keinos/gofeed-cli
-/ # gofeed-cli ParseURL https://sample.com/news.rss
-...
-/ # exit
-$
-```
-
-## Commands Available
-
-- [x] `ParseURL [URL]`
-- [x] `ParseString [String]`
-- [ ] Comming soon ...
 
 ## Contribute/Collaborate
 

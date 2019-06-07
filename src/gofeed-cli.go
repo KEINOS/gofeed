@@ -1,6 +1,18 @@
 package main
 
-import (
+// Requires:
+//   go, git, gcc, g++,
+//   go get github.com/mmcdole/gofeed
+//   go get github.com/urfave/cli
+// Build:
+//   VERSION_APP=$(git describe --tags)
+//   go build \
+//     -a \
+//      --ldflags "-w -extldflags \"-static\" -X main.app_version=${VERSION_APP}" \
+//      -o /path/to/go/bin/gofeed-cli.go \
+//      ./gofeed-cli.go
+
+	import (
 	"log"
 	"os"
 	"fmt"
@@ -35,7 +47,7 @@ func main() {
 	// Default action
 	app.Action = func(context *cli.Context) error {
 		PrintError("Syntax error: Unknown command or option given.")
-		VarDump(os.Args)
+		//VarDump(os.Args)
 		cli.ShowAppHelpAndExit(context, 1)
 		return nil
 	}

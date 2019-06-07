@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# gofeed-cli builder
+# ==================
+# This script checks the requirements and builds the gofeed-cli.
+# Aimed to run on docker to build. See the Dockerfile and the
+# source code "gofeed-cli.go" for details.
+
 cd $(dirname $0)
 
 NAME_APP=${NAME_APP:-gofeed-cli}
