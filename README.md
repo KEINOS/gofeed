@@ -80,18 +80,18 @@ $ docker run --rm keinos/gofeed-cli url https://sample.com/news.rss
 
 ### Parse Feed From A String
 
-- Use `ParseString` (alias `string`) command to parse feeds from URL.
+- Use `ParseString` (alias `string`) command to parse feeds from a string.
 
     ```bash
     # Using the own built binary.
     gofeed-cli ParseString [String]
-    gofeed-cli string [String]
+    gofeed-cli string "[String]"
     ```
 
     ```bash
     # Using Docker. No need to build but Docker.
     docker run --rm keinos/gofeed-cli ParseString [String]
-    docker run --rm keinos/gofeed-cli string [String]
+    docker run --rm keinos/gofeed-cli string "[String]"
     ```
 
 ```shellsession
