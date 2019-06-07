@@ -1,6 +1,9 @@
 #!/bin/sh
 
+cd $(dirname $0)
+
 NAME_APP=${NAME_APP:-gofeed-cli}
+VERSION_APP=${VERSION_APP:-$(git describe --tags)}
 
 function chk_bin(){
     printf "  - ${1} ... "
@@ -57,12 +60,12 @@ chk_pkg github.com/urfave/cli
 
 # Building The App
 # ================
-printf '- Building app ... NOW! '
 
-cd $(dirname $0)
-CGO_ENABLED=1 go build \
+printf "- Building app (${VERSION_APP}) ... "
+
+go build \
     -a \
-    --ldflags '-w -extldflags "-static"' \
+    --ldflags "-w -extldflags \"-static\" -X main.app_version=${VERSION_APP}" \
     -o ../bin/$NAME_APP \
     ./gofeed-cli.go && \
 ../bin/$NAME_APP --version

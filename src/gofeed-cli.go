@@ -11,9 +11,11 @@ import (
 )
 
 var (
-	app_version = "0.0.1"
-	app_author  = "https://github.com/KEINOS/gofeed-cli/graphs/contributors"
-	url_test    = "https://qiita.com/KEINOS/feed.atom"
+	// Specify the app_version in the build process such like:
+	//   $ go build -ldflags "-X main.app_version=v0.0.1" gofeed-cli.go
+	app_version string
+	app_author = "https://github.com/KEINOS/gofeed-cli/graphs/contributors"
+	url_test   = "https://qiita.com/KEINOS/feed.atom"
 )
 
 func main() {
@@ -33,6 +35,7 @@ func main() {
 	// Default action
 	app.Action = func(context *cli.Context) error {
 		PrintError("Syntax error: Unknown command or option given.")
+		VarDump(os.Args)
 		cli.ShowAppHelpAndExit(context, 1)
 		return nil
 	}
@@ -126,4 +129,10 @@ func NewAppCli() *cli.App {
 
 func PrintError(message string) {
 	fmt.Fprintf(os.Stderr, "* " + strings.TrimSpace(message) + "\n\n")
+}
+
+func VarDump(v ...interface{}) {
+    for _, vv := range(v) {
+        fmt.Printf("%#v\n", vv)
+    }
 }

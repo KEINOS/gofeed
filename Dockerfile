@@ -1,14 +1,16 @@
 ARG NAME_APP=gofeed-cli
+ARG VERSION_APP
 
 # Stage 1: Build gofeed-cli binary
 # =========================================================
 FROM golang:alpine AS build-app
 
-# Set app name
-ENV NAME_APP=$NAME_APP
+# Set env variable of app name and version
+ENV NAME_APP=$NAME_APP VERSION_APP=$VERSION_APP
 
 # Copy the source code
 COPY src/ /go/src
+COPY .git/ /go/src/.git
 
 # Install dependencies
 RUN apk add git gcc g++ && \
@@ -26,12 +28,14 @@ RUN /go/src/run-tests.sh
 # keinos/gofeed-cli and updates image on Docker Hub.
 FROM keinos/alpine
 
+ARG NAME_APP=gofeed-cli
+
 # Avoid "x509: certificate signed by unknown authority" error
 # while fetching feed through HTTPS.
 RUN apk add ca-certificates \
     && rm -rf /var/cache/apk/*
 
-COPY --from=build-app /go/bin/$NAME_APP /usr/local/bin/$NAME_APP
+COPY --from=build-app /go/bin/gofeed-cli /usr/local/bin/gofeed-cli
 
-ENV NAME_APP=$NAME_APP
-ENTRYPOINT $NAME_APP
+ENTRYPOINT [ "/usr/local/bin/gofeed-cli" ]
+CMD [ "--help" ]
