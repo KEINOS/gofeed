@@ -1,10 +1,10 @@
 [![](https://images.microbadger.com/badges/image/keinos/gofeed-cli.svg)](https://microbadger.com/images/keinos/gofeed-cli "View image info on microbadger.com") [![](https://img.shields.io/docker/cloud/automated/keinos/gofeed-cli.svg)](https://hub.docker.com/r/keinos/gofeed-cli "View on Docker Hub") [![](https://img.shields.io/docker/cloud/build/keinos/gofeed-cli.svg)](https://hub.docker.com/r/keinos/gofeed-cli/builds "View builds on Docker Hub")
 
-# gofeed-cli
+# gofeed-cli (a simple CLI of [gofeed](https://github.com/mmcdole/gofeed))
 
-A simple CLI of [gofeed](https://github.com/mmcdole/gofeed).
+[gofeed](https://github.com/mmcdole/gofeed) as a command line.
 
-This command parses the content of a given URL/string of RSS/Atom feed (XML) into JSON.
+This command parses RSS/Atom feed(XML) into JSON from a given URL/string.
 
 - Docker Image: `keinos/gofeed-cli:latest` [[See available versions](https://hub.docker.com/r/keinos/gofeed-cli/tags)]
 - Repositories:
