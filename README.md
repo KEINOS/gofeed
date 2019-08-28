@@ -15,12 +15,12 @@ This command parses the content of a given URL/string of RSS/Atom feed (XML) int
 
 ## Usage
 
-Use Docker or build the binary your own from the [source](https://github.com/KEINOS/gofeed-cli/tree/gofeed-cli/src).
+The simplest way to use `gofeed-cli` is via Docker. Or build the binary your own from the [source](https://github.com/KEINOS/gofeed-cli/tree/gofeed-cli/src).
 
 ### Help
 
 ```shellsession
-$ //gofeed-cli --help
+$ # gofeed-cli --help
 $ docker run --rm keinos/gofeed-cli --help
 NAME:
    CLI for GoFeed - Parses Feeds such as XML and Atom to JSON.
