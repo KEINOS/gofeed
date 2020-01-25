@@ -12,7 +12,7 @@ package main
 //      -o /path/to/go/bin/gofeed-cli.go \
 //      ./gofeed-cli.go
 
-	import (
+import (
 	"log"
 	"os"
 	"fmt"
@@ -56,7 +56,7 @@ func main() {
 	err := app.Run(os.Args)
 
 	if err != nil {
-		PrintError("Error occured while running the app.")
+		PrintError("Error occurred while running the app.")
 		log.Fatal(err)
 	}
 }
