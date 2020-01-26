@@ -9,6 +9,7 @@
 cd $(dirname $0)
 
 NAME_APP=${NAME_APP:-gofeed-cli}
+AUTHOR_APP=${AUTHOR_APP:-""}
 VERSION_APP=${VERSION_APP:-$(git describe --tags)}
 
 function chk_bin(){
@@ -64,17 +65,21 @@ fi
 chk_pkg github.com/mmcdole/gofeed
 chk_pkg github.com/urfave/cli
 
+printf '- Go version: '; go version
+printf '- Go envs: '; go env
+
 # Building The App
 # ================
 
-printf "- Building app (${VERSION_APP}) ... "
+echo "- Building app (${VERSION_APP}) ... "
 
 go build \
     -a \
-    --ldflags "-w -extldflags \"-static\" -X main.app_version=${VERSION_APP}" \
+    --ldflags "-w -extldflags \"-static\" -X main.app_version=${VERSION_APP} -X main.app_author=${AUTHOR_APP}" \
     -o ../bin/$NAME_APP \
     ./gofeed-cli.go && \
-../bin/$NAME_APP --version
+../bin/$NAME_APP --version && \
+../bin/$NAME_APP --help
 
 if [ $? -ne 0 ]; then
     echo '* Failed to build app'

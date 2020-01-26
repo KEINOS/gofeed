@@ -7,17 +7,16 @@ FROM golang:alpine AS build-app
 
 # Set env variable of app name and version
 ENV NAME_APP=$NAME_APP VERSION_APP=$VERSION_APP
+ENV GO111MODULE=on
 
 # Copy the source code
 COPY src/ /go/src
 COPY .git/ /go/src/.git
 
-# Install dependencies
+# Install dependencies and build
 RUN apk add git gcc g++ && \
-    go get github.com/mmcdole/gofeed && \
-    go get github.com/urfave/cli
-# Build app
-RUN /go/src/build.sh
+    /go/src/build.sh
+
 # Run tests
 RUN /go/src/run-tests.sh
 
