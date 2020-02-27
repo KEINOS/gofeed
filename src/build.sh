@@ -6,11 +6,17 @@
 # Aimed to run on docker to build. See the Dockerfile and the
 # source code "gofeed-cli.go" for details.
 
-cd $(dirname $0)
+cd $(cd $(dirname $0); pwd)
+echo '- Curent directory: ' $(pwd)
+echo '- User: ' $(whoami)
 
 NAME_APP=${NAME_APP:-gofeed-cli}
 AUTHOR_APP=${AUTHOR_APP:-""}
-VERSION_APP=${VERSION_APP:-$(git describe --tags)}
+VERSION_APP=${VERSION_APP:-$(cd $GOPATH/src; git describe --tags)}
+
+# =============================================================================
+#  Functions
+# =============================================================================
 
 function chk_bin(){
     printf "  - ${1} ... "
@@ -47,6 +53,10 @@ function install_pkg(){
     echo 'OK'
 }
 
+# =============================================================================
+#  Main
+# =============================================================================
+
 # Check dependencies
 # ==================
 echo '- Checking dependencies ...'
@@ -65,8 +75,16 @@ fi
 chk_pkg github.com/mmcdole/gofeed
 chk_pkg github.com/urfave/cli
 
+echo '- Tidy go modules:'
+go mod tidy
+
 printf '- Go version: '; go version
-printf '- Go envs: '; go env
+echo '- Go envs: '; go env
+echo '- List packages'; go list ./...
+
+echo '- Double check modules:';
+    chk_pkg github.com/mmcdole/gofeed
+    chk_pkg github.com/urfave/cli
 
 # Building The App
 # ================
@@ -75,7 +93,9 @@ echo "- Building app (${VERSION_APP}) ... "
 
 go build \
     -a \
-    --ldflags "-w -extldflags \"-static\" -X main.app_version=${VERSION_APP} -X main.app_author=${AUTHOR_APP}" \
+    --ldflags "-w -extldflags \"-static\" \
+        -X main.app_version=${VERSION_APP} \
+        -X main.app_author=${AUTHOR_APP}" \
     -o ../bin/$NAME_APP \
     ./gofeed-cli.go && \
 ../bin/$NAME_APP --version && \
