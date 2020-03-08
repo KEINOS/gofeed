@@ -8,26 +8,26 @@ package main
 //   VERSION_APP=$(git describe --tags)
 //   go build \
 //     -a \
-//      --ldflags "-w -extldflags \"-static\" -X main.app_version=${VERSION_APP}" \
+//      --ldflags "-w -extldflags \"-static\" -X main.appVersion=${VERSION_APP}" \
 //      -o /path/to/go/bin/gofeed-cli.go \
 //      ./gofeed-cli.go
 
 import (
+	"fmt"
+	gofeed "github.com/mmcdole/gofeed"
+	cli "github.com/urfave/cli"
 	"log"
 	"os"
-	"fmt"
 	"path/filepath"
 	"strings"
-	cli "github.com/urfave/cli"
-	gofeed "github.com/mmcdole/gofeed"
 )
 
 var (
-	// Specify the app_version in the build process such like:
-	//   $ go build -ldflags "-X main.app_version=v0.0.1" gofeed-cli.go
-	app_version string
-	app_author = "https://github.com/KEINOS/gofeed-cli/graphs/contributors"
-	url_test   = "https://qiita.com/KEINOS/feed.atom"
+	// Specify the appVersion in the build process such like:
+	//   $ go build -ldflags "-X main.appVersion=v0.0.1" gofeed-cli.go
+	appVersion = "dev"
+	appAuthor  = "https://github.com/KEINOS/gofeed-cli/graphs/contributors"
+	urlTest    = "https://qiita.com/KEINOS/feed.atom"
 )
 
 func main() {
@@ -36,7 +36,7 @@ func main() {
 	// Set Global Options
 	app.Flags = []cli.Flag{
 		FlagOptionCount(),
-		FlagOptionJson(),
+		FlagOptionJSON(),
 	}
 	// Set Commands
 	app.Commands = []cli.Command{
@@ -44,7 +44,7 @@ func main() {
 		CmdParseString(),
 	}
 
-	// Default action
+	// Default action (When no arg/option given)
 	app.Action = func(context *cli.Context) error {
 		PrintError("Syntax error: Unknown command or option given.")
 		//VarDump(os.Args)
@@ -61,20 +61,21 @@ func main() {
 	}
 }
 
+// CmdParseString : Command for `gofeed-cli string`
 func CmdParseString() cli.Command {
-	return cli.Command {
+	return cli.Command{
 		Name:    "ParseString",
 		Aliases: []string{"string"},
 		Usage:   "Parse the contents of a given string into JSON.",
-		Action:  func(context *cli.Context) error {
+		Action: func(context *cli.Context) error {
 			if context.NArg() == 0 {
 				PrintError("Missing argument.")
 				cli.ShowAppHelpAndExit(context, 1)
 				return nil
 			}
-			str_json  := context.Args()[0]
-			fp        := gofeed.NewParser()
-			feed, err := fp.ParseString(str_json)
+			strJSON := context.Args()[0]
+			fp := gofeed.NewParser()
+			feed, err := fp.ParseString(strJSON)
 			if err == nil {
 				fmt.Println(feed)
 				return nil
@@ -84,20 +85,21 @@ func CmdParseString() cli.Command {
 	}
 }
 
+// CmdParseURL : Command for `gofeed-cli url`
 func CmdParseURL() cli.Command {
-	return cli.Command {
+	return cli.Command{
 		Name:    "ParseURL",
 		Aliases: []string{"url"},
 		Usage:   "Parse the contents of a given URL into JSON.",
-		Action:  func(context *cli.Context) error {
+		Action: func(context *cli.Context) error {
 			if context.NArg() == 0 {
 				PrintError("Missing argument.")
 				cli.ShowAppHelpAndExit(context, 1)
 				return nil
 			}
-			str_url   := context.Args()[0]
-			fp        := gofeed.NewParser()
-			feed, err := fp.ParseURL(str_url)
+			strURL := context.Args()[0]
+			fp := gofeed.NewParser()
+			feed, err := fp.ParseURL(strURL)
 			if err == nil {
 				fmt.Println(feed)
 				return nil
@@ -107,6 +109,7 @@ func CmdParseURL() cli.Command {
 	}
 }
 
+// FlagOptionCount : [WIP] Option flag for `gofeed-cli --count`
 func FlagOptionCount() cli.StringFlag {
 	return cli.StringFlag{
 		Name:  "count, c",
@@ -114,37 +117,51 @@ func FlagOptionCount() cli.StringFlag {
 	}
 }
 
-func FlagOptionJson() cli.BoolFlag {
+// FlagOptionJSON : Option flag for `gofeed-cli --json`
+func FlagOptionJSON() cli.BoolFlag {
 	return cli.BoolFlag{
 		Name:  "json, j",
 		Usage: "Returns output in JSON format. (Default)",
 	}
 }
 
+// getEnv : Get ENV variable value
+func getEnv(key, alternate string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return alternate
+}
+
+// GetNameExe : Returns the file name as `gofeed-cli`
 func GetNameExe() string {
 	return GetNameFileWithNoExt(os.Args[0])
 }
 
-func GetNameFileWithNoExt(path_file string) string {
-    return filepath.Base(path_file[:len(path_file)-len(filepath.Ext(path_file))])
+// GetNameFileWithNoExt : Returns the file name without extension name
+func GetNameFileWithNoExt(pathFile string) string {
+	return filepath.Base(pathFile[:len(pathFile)-len(filepath.Ext(pathFile))])
 }
 
+// NewAppCli : Returns a CLI app object
 func NewAppCli() *cli.App {
 	app := cli.NewApp()
-	app.Name  = "CLI for GoFeed"
+	app.Name = "CLI for GoFeed"
 	app.Usage = "Parses Feeds such as XML and Atom to JSON."
-	app.Version = app_version
-	app.Author  = app_author
+	app.Version = appVersion
+	app.Copyright = appAuthor
 
 	return app
 }
 
+// PrintError : Old school error output
 func PrintError(message string) {
-	fmt.Fprintf(os.Stderr, "* " + strings.TrimSpace(message) + "\n\n")
+	fmt.Fprintf(os.Stderr, "* "+strings.TrimSpace(message)+"\n\n")
 }
 
+// VarDump : Old school variable dumping for debugging
 func VarDump(v ...interface{}) {
-    for _, vv := range(v) {
-        fmt.Printf("%#v\n", vv)
-    }
+	for _, vv := range v {
+		fmt.Printf("%#v\n", vv)
+	}
 }

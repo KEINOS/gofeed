@@ -1,10 +1,15 @@
 #!/bin/sh
 
-which gofeed-cli > /dev/null
-if [ $? -ne 0 ]; then
-  echo 'gofeed-cli not installed or placed in the env paths.'
-  exit 1
-fi
+echo 'uname -a: ' $(uname -a)
+
+which gofeed-cli 2>/dev/null 1>/dev/null || {
+    echo 'ERROR* gofeed-cli not installed or placed in the env paths.'
+    exit 1
+}
+
+gofeed-cli -version
+gofeed-cli -help
+gofeed-cli author
 
 echo '======================'
 echo ' Test for ParseString'

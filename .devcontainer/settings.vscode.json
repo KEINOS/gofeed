@@ -1,0 +1,11 @@
+{
+    "go.gopath": "/go",
+    "go.formatTool": "goimports",
+    "go.buildOnSave": "off",
+    "go.lintOnSave": "file",
+    "go.vetOnSave": "off",
+    "go.formatOnSave": "true",
+    "[go]":  {
+        "editor.formatOnSave": false
+    }
+}
