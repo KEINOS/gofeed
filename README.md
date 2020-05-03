@@ -23,7 +23,6 @@ $ ./gofeed-cli url https://qiita.com/KEINOS/feed.atom
 
 <details><summary>Direct Download Links of Latest Release</summary><div><br>
 
-
 | OS | Arch | Bin Name | Hardware Tested | Download (Latest Release) |
 |:-- | :--: | :--: | :-- | :--: |
 | macOS | x86_64/AMD64 | gofeed-cli-darwin-amd64 | MBP Early 2015 | [DOWNLOAD](https://github.com/KEINOS/gofeed-cli/releases/latest/download/gofeed-cli-darwin-amd64) |
@@ -124,7 +123,7 @@ $ docker run --rm keinos/gofeed-cli url https://qiita.com/KEINOS/feed.atom
 ## Build
 
 If you have bash and Docker installed, then you don't need a Golang environment to build the binary.
-Just run the `build-bin.sh` script under `./build/` directory and you'll get the compiled binary in `./bin/`
+Just run the `build-bin.sh` script under `./build/` directory and you'll get the compiled binaries in `./bin/`
 
 ```shellsession
 $ ./build/build-bin.sh
@@ -133,7 +132,7 @@ $ ls -l ./bin
 ...
 ```
 
-- Tested Docker Version: v19.03.5
+- Tested Docker Version: v19.03.5, 19.03.8 | macOS Mojave 10.14.6 @ MacBookPro Intel Core i5
 - You might need a `sudo` privilege to run the script.
 
 ## Development
@@ -144,11 +143,10 @@ It allows you to use a Docker container as a Golang-featured development environ
 
 ## Contribute/Collaborate
 
-Note: **This app is placed on `gofeed-cli` orphan branch** and NOT in `master`.
-
-- Since `master` branch is an up-to-date code of the original `gofeed`, any PR (Pull Request) to this CLI app must be to `gofeed-cli` branch.
+- All the Pull Requests **MUST** be to `gofeed-cli` branch.
+  - Note that **this CLI app is placed on `gofeed-cli` orphan branch** and NOT in `master`. The `master` branch is an up-to-date code of the original `gofeed`, so any PRs to this CLI app must be to `gofeed-cli` branch.
 - Any contribution/collaboration such as new feature, bug fixing, refactoring, etc. are more than well come!
-- Be nice.
+- Be nice to others.
 - Issues/comments en Español or 日本語 are "no problemo!”. Be happy!
 
 ## License
